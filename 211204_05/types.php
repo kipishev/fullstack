@@ -137,8 +137,10 @@ $n *= 2;
 $name = 'Andrei';
 $name .= ' Tikishev';
 
-
-
+/*--------------------------------- Изменение типа данных */
+$str = '123';
+$number = (int) $str;
+echo "$number" . gettype($number);
 
 
 
