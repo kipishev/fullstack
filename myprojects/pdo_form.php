@@ -9,20 +9,22 @@ $user = 'root';
 $password = '2222';
 $pdo = new Pdo('mysql:dbname=fullstack;localhost;port=8889', $user, $password); // Создаем экземпляр класса PDO
 
-$name = $_POST['name']; // Получаем значения из передаваемого массива
-$login = $_POST['login'];
-$password = $_POST['password'];
-$city_id = $_POST['city_id'];
+$contractor = $_POST['contractor']; // Получаем значения из передаваемого массива
+$num = $_POST['num'];
+$object = $_POST['object'];
+$sum = $_POST['sum'];
+$budget_id = $_POST['budget_id'];
 
-$query = "INSERT INTO users (name, login, pas, city_id) VALUES(:name, :login, :password, :city_id)";
+$query = "INSERT INTO agreements (contractor, num, object, sum, budget_id) VALUES(:contractor, :num, :object, :sum, :budget_id)";
 // Использование заглушек чрез : является защит от SQL-инъекций
 $res = $pdo->prepare($query);
 // Класс PDO через prepare подготавливает запрос, т.к. данные от пользователя могут быть абсолютно любые
 $res->execute([ // Выполняем запрос к БД (вместо шаблонов появятся реальные значения)
-    ':name' => $name,
-    ':login' => $login,
-    ':password' => $password,
-    ':city_id' => $city_id,
+    ':contractor' => $contractor,
+    ':num' => $num,
+    ':object' => $object,
+    ':sum' => $sum,
+    ':budget_id' => $budget_id,
 ]);
 
-header('Location: 10_pdo.php'); // Заголовок должен отправиться до вывода любой информации
+header('Location: pdo.php'); // Заголовок должен отправиться до вывода любой информации

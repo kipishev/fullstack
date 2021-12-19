@@ -18,7 +18,7 @@
             <?php
             /* Создаем соединение с БД */
             $user = 'root';
-            $password = '76No2201894';
+            $password = '2222';
             $pdo = new Pdo('mysql:dbname=fullstack;localhost;port=8889', $user, $password); // Создаем экземпляр класса PDO
 
             $query = "SELECT * FROM users"; // Просто прописали текст запроса
