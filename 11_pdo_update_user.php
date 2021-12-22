@@ -28,8 +28,7 @@ if (!$status) {
     $error = $res->errorInfo()[2];
     $_SESSION['error'] = $error;
 } else {
-    $success = $status;
-    $_SESSION['success'] = $success;
+    $_SESSION['success'] = $status;
     // Вывесте сообщение об успехе
 }
 
