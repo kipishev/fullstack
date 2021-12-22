@@ -21,10 +21,10 @@
             $password = '2222';
             $pdo = new Pdo('mysql:dbname=fullstack;localhost;port=8889', $user, $password); // Создаем экземпляр класса PDO
 
-            $query = "SELECT * FROM users"; // Просто прописали текст запроса
-            $res = $pdo->query($query); // Передаем текст запроса и результат передаем в переменную
+            $query = "SELECT * FROM users"; // Просто текст запроса
+            $res = $pdo->query($query); // Подготавливаем запрос, возвращается объект
             // print_r($res->fetchAll()); // Проверяем вывод данных, обрабатываем результат запроса
-            $users = $res->fetchAll();
+            $users = $res->fetchAll(); // fetchAll всегда вернет массив, даже если записей не найдено
 
             $query = "SELECT * FROM cities"; // Выбираем все из таблицы городов
             $res = $pdo->query($query);
@@ -58,11 +58,13 @@
                 <tr>
                     <td>{$user['id']}</td>
                     <td>{$user['login']}</td>
-                    <td>{$user['name']}</td>
+                    <td><a href='11_pdo_users_profile.php?id={$user['id']}'>{$user['name']}</a></td>
+                    <!-- Если необходимо передать еще какие-либо параметры, то используется знак & -->
                     <td>{$city}</td>
                     <td class='text-center'>
-                        <form method='post' action='10_pdo_del_user.php'>
-                            <button class='btn btn-danger'>X</button>
+                        <form method='post' action='10_pdo_delete_users.php'>
+                            <input hidden name='id' value='{$user['id']}'>
+                            <button type='submit' class='btn btn-danger'>X</button>
                         </form>
                     </td>
                 </tr>
@@ -85,12 +87,12 @@
                     // Можно указать просто value без значения, что будет соответствовать value=NULL
                     // Либо благодаря тому, что disabled, никакое значение не передается и форма отправляется
                     <?php
-                    $null = NULL; // Для отправки формы без выбранного города
-                    echo "<option value='{$null}' selected disabled>-- Выберете город --</option>";
-                    foreach ($cities as $city) {
-                        echo "<option value='{$city['id']}'>{$city['name']}</option>";
-                        // Отображается $city['name'], а отправляться будет $city['id']
-                    }
+                        $null = NULL; // Для отправки формы без выбранного города
+                        echo "<option value='{$null}' selected disabled>-- Выберете город --</option>";
+                        foreach ($cities as $city) {
+                            echo "<option value='{$city['id']}'>{$city['name']}</option>";
+                            // Отображается $city['name'], а отправляться будет $city['id']
+                        }
                     ?>
                 </select>
                 <button type="submit" class="btn btn-success w-100">Отправить</button>
