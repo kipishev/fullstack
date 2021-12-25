@@ -1,25 +1,6 @@
 <?php
-session_start(); // Данную функцию мы должны запускать до вывода любой информации на страницу
-?>
-<!doctype html>
-<html lang="ru">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-        <title>F</title>
-        <style>
-            .btn-danger {
-                border-radius: 100px;
-                padding: 3px 11px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container mt-5">
+require_once '../templates/header.php';
 
-            <!--<pre>-->
-            <?php
             /*------------------------------------------------ Проверка работы сессии */
             //echo '<pre>';
             //$_SESSION['test']='sljfdjs';
@@ -30,10 +11,6 @@ session_start(); // Данную функцию мы должны запуска
             /*------------------------------------------------ Проверка наличия пользователя */
             //echo $_GET['id']; // На данном этапе можно проверить передается ли id
             //echo $_GET['login']; // Можно получить и другие данные через GET параметры
-
-            $user = 'root';
-            $password = '2222';
-            $pdo = new Pdo('mysql:dbname=fullstack;localhost;port=8889', $user, $password);
 
             $userId = $_GET['id'];
 
@@ -69,15 +46,15 @@ session_start(); // Данную функцию мы должны запуска
                 unset($_SESSION['error']); // Теперь сообщение о наличие можно удалять
             } elseif (isset($_SESSION['success'])) {
                 echo "
-                    <div class='alert alert-success text-center' role='alert'>
-                        <p>Изменения внесены</p>
+                    <div id='alertSuccess' class='alert alert-success text-center' role='alert'>
+                        Изменения внесены
                     </div>
                 ";
                 unset($_SESSION['success']);
             }
             ?>
             <!-------------------------------------------------- Форма редактирования пользователя-->
-            <form method="post" action="11_pdo_update_user.php">
+            <form method="post" action="../action/update_user.php">
                 <label>Имя</label>
                 <input name="id" hidden value='<?=$user['id']?>'>
                 <input class="form-control mb-2" name="name" value="<?=$user['name']?>">
@@ -105,7 +82,13 @@ session_start(); // Данную функцию мы должны запуска
                     ';
             }
             ?>
-        </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    </body>
-</html>
+        <!--</div>--> <!--Подключается в футере-->
+        <script>
+            $(document).ready(function () {
+                setTimeout(function () {
+                    $('#alertSuccess').fadeOut()
+                }, 3000)
+            })
+        </script>
+<?php
+require_once '../templates/footer.php';

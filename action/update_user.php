@@ -28,8 +28,8 @@ if (!$status) {
     $error = $res->errorInfo()[2];
     $_SESSION['error'] = $error;
 } else {
-    $_SESSION['success'] = $status;
+    $_SESSION['success'] = $status; // или true, по сути главное, чтобы ключ существовал, значение не важно
     // Вывесте сообщение об успехе
 }
 
-header("Location: 11_pdo_users_profile.php?id=$userId"); // Заголовок должен отправиться до вывода любой информации
+header("Location: ../pages/user.php?id=$userId"); // Заголовок должен отправиться до вывода любой информации
