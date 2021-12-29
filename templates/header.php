@@ -1,5 +1,6 @@
 <?php
-require $_SERVER['DOCUMENT_ROOT'].'/config.php';
+$document_root = $_SERVER['DOCUMENT_ROOT'];
+require $document_root .'/config.php';
 ?>
 <!doctype html>
 <html lang="ru">
@@ -28,7 +29,12 @@ require $_SERVER['DOCUMENT_ROOT'].'/config.php';
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
                         <?php if ($_SESSION['user']['is_admin']) { ?>
+
+                        <?php /*if (isset($_SESSION['user'])) {
+                            if ($_SESSION['user']['is_admin']) { */?> <!--С этим кодом не грузится хедер-->
+
                             <li class="nav-item">
                                 <a class="nav-link <?= $_SERVER['PHP_SELF'] == '/pages/admin/index.php' ? 'active' : '' ?>" aria-current="page" href="/pages/admin/index.php">Админка</a>
                             </li>
