@@ -54,7 +54,7 @@ require_once '../templates/header.php';
             }
             ?>
             <!-------------------------------------------------- Форма редактирования пользователя-->
-            <form method="post" action="../action/update_user.php">
+            <form method="post" action="../actions/update_user.php">
                 <label>Имя</label>
                 <input name="id" hidden value='<?=$user['id']?>'>
                 <input class="form-control mb-2" name="name" value="<?=$user['name']?>">

@@ -1,5 +1,5 @@
 <?php
-
+$title = 'Cписок пользователе';
 require '../../templates/header.php';
 
 $query = "SELECT * FROM users"; // Просто текст запроса
@@ -43,7 +43,7 @@ foreach ($users as $user) {
                     <!-- Если необходимо передать еще какие-либо параметры, то используется знак & -->
                     <td>{$city}</td>
                     <td class='text-center'>
-                        <form method='post' action='action/del_user.php'>
+                        <form method='post' action='actions/del_user.php'>
                             <input hidden name='id' value='{$user['id']}'>
                             <button type='submit' class='btn btn-danger'>X</button>
                         </form>
