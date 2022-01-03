@@ -1,9 +1,19 @@
 <?php
 $title = 'Список продуктов';
 require_once '../../templates/header.php';
-ini_set('display_errors', 1); // или можно указать значение true вместо 1
 
-$query = "SELECT * FROM products";
+// Ниже полная запись и запись с псевдонимами
+/*$query = "SELECT *
+            FROM products
+            JOIN categories ON products.category_id = categories_id";
+$res = $pdo->query($query);
+$products = $res->fetchAll();*/
+
+/*При использовании JOIN лучше убрать * чтобы избежать выборки одинаковых полей. Указываем явно что выбирать*/
+/*Также чтобы избежать выборки полей с одинаковым наименованием, даем псевдонимы одному из полей*/
+$query = "SELECT p.id, p.name, p.price, p.picture, p.description, c.name as category
+            FROM products as p
+            JOIN categories as c ON p.category_id = c.id";
 $res = $pdo->query($query);
 $products = $res->fetchAll();
 
@@ -76,7 +86,7 @@ if (isset($_SESSION['createProductErrors'])) {
                 <td>{$product['name']}</td>
                 <td>{$product['description']}</td>
                 <td>{$product['price']}</td>
-                <td>{$product['category_id']}</td>
+                <td>{$product['category']}</td> <!--После использования JOIN меняем наименование выводимого поля-->
                 <td class='text-center'>
                     <img height='100' src='{$path}{$product['picture']}'
                 </td>

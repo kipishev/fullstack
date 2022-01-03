@@ -13,9 +13,31 @@ require $document_root .'/config.php';
         crossorigin="anonymous"></script>
         <title><?= $title ?></title>
         <style>
-            .btn-danger {
+            .btn-user-delete {
                 border-radius: 100px;
                 padding: 3px 11px;
+            }
+            .card-image {
+                margin-top: 10px;
+            }
+            .card-price {
+                text-align: center;
+                font-size: 23px;
+                border-bottom: 2px solid grey;
+            }
+            .card-image img {
+                width: 200px;
+            }
+            .btn-product-remove, .btn-product-add {
+                width: 37px;
+            }
+            .card-basket-buttons {
+                margin-top: 15px;
+                display: flex;
+                justify-content: space-between;
+            }
+            .card-basket-quantity {
+                line-height: 38px;
             }
         </style>
     </head>
@@ -47,6 +69,13 @@ require $document_root .'/config.php';
                             <a class="nav-link <?= $_SERVER['PHP_SELF'] == '/pages/register.php' ? 'active' : '' ?>" href="/pages/register.php">Регистрация</a>
                         </li>
                         <?php } else { ?>
+
+                        <li class="nav-item">
+                            <a class="nav-link <?= $_SERVER['PHP_SELF'] == '/pages/basket.php' ? 'active' : '' ?>" href="/pages/basket.php">
+                                Корзина (<?= array_sum($_SESSION['products'] ?? []) ?>)
+                            </a>
+                        </li>
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <?= $_SESSION['user']['login'] ?>
