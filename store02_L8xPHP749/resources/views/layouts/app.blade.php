@@ -38,11 +38,6 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
-                        @if(Auth::user()->is_admin)
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('adminUsers') }}">Админка</a>
-                            </li>
-                        @endif
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))
@@ -57,6 +52,11 @@
                                 </li>
                             @endif
                         @else
+                            @if(Auth::user()->is_admin)
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('adminUsers') }}">Админка</a>
+                                </li>
+                            @endif
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}

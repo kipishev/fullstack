@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix('admin')->middleware('is_admin')->group(function () {
+Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/users', [App\Http\Controllers\AdminController::class, 'users'])->name('adminUsers');
     Route::get('/products', [App\Http\Controllers\AdminController::class, 'products'])->name('adminProducts');
     Route::get('/categories', [App\Http\Controllers\AdminController::class, 'categories'])->name('adminCategories');
