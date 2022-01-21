@@ -14,10 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
+    Route::get('/', [App\Http\Controllers\AdminController::class, 'admin'])->name('admin');
     Route::get('/users', [App\Http\Controllers\AdminController::class, 'users'])->name('adminUsers');
     Route::get('/products', [App\Http\Controllers\AdminController::class, 'products'])->name('adminProducts');
     Route::get('/categories', [App\Http\Controllers\AdminController::class, 'categories'])->name('adminCategories');
