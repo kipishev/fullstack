@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,7 +14,6 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
     }
 
     /**
@@ -23,6 +23,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $categories = Category::get();
+        return view('home', compact('categories'));
+    }
+
+    public function category ( Category $category) {
+        //dd($category->products);
+        $products = $category->products;
+        return view('category', compact('products'));
     }
 }
