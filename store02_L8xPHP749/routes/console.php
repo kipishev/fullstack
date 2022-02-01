@@ -1,7 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use App\Models\Category;
 use Illuminate\Foundation\Inspiring;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Artisan;
 
 /*
@@ -14,6 +16,35 @@ use Illuminate\Support\Facades\Artisan;
 | simple approach to interacting with each command's IO methods.
 |
 */
+
+Artisan::command('queryBuilder', function () {
+    $data = DB::table('categories as c')
+        ->select(
+            'c.name',
+            'c.description',
+        )
+        ->where('name', 'Процессоры')
+        ->get();
+
+    $data = DB::table('categories as c')
+        ->select(
+            'c.name',
+            DB::raw('count(p.id) as product_quantity'),
+            DB::raw('sum(p.price) as priceAmount')
+        )
+        //-join('products as p', 'c.id', 'p.category_id'); // джойним по одному полю
+        ->leftJoin('products as p', function ($join) {
+            $join->on('c.id', 'p.category_id'); // джойним по нескольким полям или какие-то определенные поля, далее можно использовать ->where
+        })
+        ->groupBy('c.id')
+        ->get();
+
+    DB::table('categories')
+        ->orderBy('id')
+        ->chunk(2, function ($categories) {
+            dump($categories->count());
+        });
+});
 
 /*Artisan::command('exportCategories', function () { // перенесли в job
     $categories = Category::get()->toArray();
@@ -153,25 +184,34 @@ Artisan::command('massCategoriesInsert', function () {
 });
 
 Artisan::command('updateCategory', function () {
-    Category::where('id', 2)->update([
+    /*Category::where('id', 2)->update([
         'name' => 'Процессоры',
-    ]);
+    ]);*/
+
+    Auth::loginUsingId(1); // обновление модели при тестировании обзервера
+    $procs = Category::where('name', 'Процессоры')->first();
+    $procs->description = 'Описание процессоров';
+    $procs->save();
 });
 
 Artisan::command('deleteCategory',   function () {
     //$category = Category::find(1);
     //$category->delete();
     //Category::where('id', 1)->delete();
-    Category::whereNotNull('id')->delete();
+    //Category::whereNotNull('id')->delete();
+
+    Auth::loginUsingId(1); // удаление категории при тестировании обзервера
+    Category::find(13)->delete();
 });
 
-Artisan::command('createCategory', function () {
+Artisan::command('createCategory', function () { // создание категорий при тестировании обзервера
+    Auth::loginUsingId(1);
     $category = new Category([
-        'name' => 'Видеокарты',
-        'description' => 'Видеокарты которые не купить',
+        'name' => 'Коробки',
+        'description' => 'Описание коробок',
     ]);
     $category->save();
-    dd($category);
+    //dd($category);
 });
 
 Artisan::command('inspire', function () {
