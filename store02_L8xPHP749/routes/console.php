@@ -15,6 +15,27 @@ use Illuminate\Support\Facades\Artisan;
 |
 */
 
+/*Artisan::command('exportCategories', function () { // перенесли в job
+    $categories = Category::get()->toArray();
+    $file = fopen('exportCategories.csv', 'w');
+    $columns = [
+        'id',
+        'name',
+        'description',
+        'picture',
+        'created_at',
+        'updated_at',
+    ];
+    fputcsv($file, $columns, ';');
+    foreach ($categories as $category) {
+        $category['name'] = iconv('utf-8', 'windows-1251//IGNORE', $category['name']); // для кириллыцы
+        $category['description'] = iconv('utf-8', 'windows-1251//IGNORE', $category['description']);
+        $category['picture'] = iconv('utf-8', 'windows-1251//IGNORE', $category['picture']);
+        fputcsv($file, $category, ';');
+    };
+    fclose($file);
+});*/
+
 Artisan::command('importCategoriesFromFile', function () {
     $file = fopen('categories.csv', 'r'); //открываем файл на чтение
 
@@ -39,100 +60,73 @@ Artisan::command('importCategoriesFromFile', function () {
 });
 
 Artisan::command('parseEKatalog', function () {
-    $url = 'https://www.e-katalog.ru/ek-list.php?katalog_=189&search_=rtx+3090';
+    $i = 0;
+    do {
+        $url = 'https://www.e-katalog.ru/ek-list.php?katalog_=189&search_=rtx+3090';
 
-    $data = file_get_contents($url);
-    //dd($data);
-
-    $dom = new DomDocument();
-    @$dom->loadHTML($data); //переводим строку в HTML документ, @ игнорирует ошибки в коде
-    //dd($dom);
-
-    $xpath = new DomXPath($dom); //позволяет делать запрос к данным, загруженным через loadHTML
-    $totalProductsString = $xpath->query("//span[@class='t-g-q']")[0]->nodeValue ?? false; //поиск элементов внутри других элементов
-    //dd($totalProductsString->length); //проверяем, должен найтись один элемент с общим числом товаров
-    //dd($totalProductsString); //выведем текстовую строку с числом
-
-    preg_match_all('/\d+/', $totalProductsString, $matches); //можем использовать регулярные выражения
-    //dd($matches[0]); //выводим из текстовой строки список чисел
-    $totalProducts = (int) $matches[0][0];
-    //dd($totalProducts);
-
-    $divs = $xpath->query("//div[@class='model-short-div list-item--goods   ']"); //поиск элементов внутри других элементов
-    //dd($divs->length); //проверяем, что именно 24 карточки получаем на данном этапе
-
-    $productsOnOnePage = $divs->length;
-    $pages = ceil($totalProducts / $productsOnOnePage); //округляем до целого большего числа
-
-    $products = []; //определяем переменную для последующего заполнени
-    foreach ($divs as $div) {
-        $a = $xpath->query("descendant::a[@class='model-short-title no-u']", $div);
-        //dump($a->length); //мы должны 24 раза увидель, что получен 1 элемент из родительского элемента
-        $name = $a[0]->nodeValue;
-        //dump($name); //на данном этапе мы получим 24 названия товаров
-
-        $price = 'Нет в наличии'; //срузу укажем нулевую цену, если что-то найдем, цена перезапишится
-
-        $ranges = $xpath->query("descendant::div[@class='model-price-range']", $div); //получаем список
-        if ($ranges->length == 1) {
-            foreach ($ranges[0]->childNodes as $child) { //смотрим цену в каждом эелементе списка
-                if ($child->nodeName == 'a') {
-                    $price = 'от ' . $child->nodeValue;
-                    //dump($price); //если найдется диапазон, то выводим его
-                }
-            }
-        }
-
-        $ranges = $xpath->query("descendant::div[@class='pr31 ib']", $div);
-        if ($ranges->length == 1) {
-            $price = $ranges[0]->nodeValue;
-            //dump($price); //если найдется точная цена, то выводим ее
-        }
-        //dump("$name: $price");
-        $products[] = [
-            'name' => $name,
-            'price' => $price,
-        ];
-    }
-
-    //далее идет некоторое дублирование кода
-    for ($i = 1; $i < $pages; $i++) {
-        $nextUrl = "$url&page_$i";
-
-        $data = file_get_contents($nextUrl);
+        $data = file_get_contents($url);
+        //dd($data);
 
         $dom = new DomDocument();
-        @$dom->loadHTML($data);
+        @$dom->loadHTML($data); //переводим строку в HTML документ, @ игнорирует ошибки в коде
+        //dd($dom);
 
-       $xpath = new DomXPath($dom);
-       $divs = $xpath->query("//table[@class='model-short-block']");
+        $xpath = new DomXPath($dom); //позволяет делать запрос к данным, загруженным через loadHTML
+        $divs = $xpath->query("//div[@class='model-short-div list-item--goods   ']"); //поиск элементов внутри других элементов
+        //dd($divs->length); //проверяем, что именно 24 карточки получаем на данном этапе
+
+        if ($i == 0) {
+            try {
+                $totalProductsString = $xpath->query("//span[@class='t-g-q']")[0]->nodeValue ?? false; //поиск элементов внутри других элементов
+                //dd($totalProductsString->length); //проверяем, должен найтись один элемент с общим числом товаров
+                //dd($totalProductsString); //выведем текстовую строку с числом
+
+                preg_match_all('/\d+/', $totalProductsString, $matches); //можем использовать регулярные выражения
+                //dd($matches[0]); //выводим из текстовой строки список чисел
+
+                $totalProducts = (int)$matches[0][0];
+                //dd($totalProducts);
+
+                dump($totalProducts);
+                $productsOnOnePage = $divs->length;
+                $pages = ceil($totalProducts / $productsOnOnePage); //округляем до целого большего числа
+                dump($pages);
+            } catch (Exception $e) {
+                $pages = 0;
+            }
+            $products = []; //определяем переменную для последующего заполнени
+        }
 
         foreach ($divs as $div) {
             $a = $xpath->query("descendant::a[@class='model-short-title no-u']", $div);
+            //dump($a->length); //мы должны 24 раза увидель, что получен 1 элемент из родительского элемента
             $name = $a[0]->nodeValue;
+            //dump($name); //на данном этапе мы получим 24 названия товаров
 
-            $price = 'Нет в наличии';
-            $ranges = $xpath->query("descendant::div[@class='model-price-range']", $div);
+            $price = 'Нет в наличии'; //срузу укажем нулевую цену, если что-то найдем, цена перезапишится
 
+            $ranges = $xpath->query("descendant::div[@class='model-price-range']", $div); //получаем список
             if ($ranges->length == 1) {
-                foreach ($ranges[0]->childNodes as $child) {
+                foreach ($ranges[0]->childNodes as $child) { //смотрим цену в каждом эелементе списка
                     if ($child->nodeName == 'a') {
                         $price = 'от ' . $child->nodeValue;
+                        //dump($price); //если найдется диапазон, то выводим его
                     }
                 }
             }
-
             $ranges = $xpath->query("descendant::div[@class='pr31 ib']", $div);
             if ($ranges->length == 1) {
                 $price = $ranges[0]->nodeValue;
+                //dump($price); //если найдется точная цена, то выводим ее
             }
-
+            dump("$name: $price");
             $products[] = [
                 'name' => $name,
                 'price' => $price,
             ];
         }
-    }
+        $i++;
+    } while ($i < $pages);
     //dd($products); //проверяем что все данные выгружаются (массив с названием и ценой по каждому товару)
 
     $file = fopen('videocards.csv', 'w'); //открываем файл на запись
