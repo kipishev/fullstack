@@ -45,4 +45,8 @@ class User extends Authenticatable
     public function addresses () {
         return $this->hasMany(Address::class);
     }
+
+    public function getMainAddress () {
+        return $this->addresses()->where('main', 1)->first();
+    }
 }
