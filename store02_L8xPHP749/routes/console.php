@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\DB;
 use App\Models\Category;
+use App\Models\Order;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Artisan;
@@ -16,6 +17,13 @@ use Illuminate\Support\Facades\Artisan;
 | simple approach to interacting with each command's IO methods.
 |
 */
+
+Artisan::command('orderTest', function () {
+    $order = Order::first();
+    $order->product->each(function ($product) {
+        dump($product->pivot->quantity);
+    });
+});
 
 Artisan::command('queryBuilder', function () {
     $data = DB::table('categories as c')
