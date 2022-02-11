@@ -46,7 +46,15 @@ class User extends Authenticatable
         return $this->hasMany(Address::class);
     }
 
+    public function isAdmin () {
+        return $this->roles->pluck('name')->contains(env('ROLE_ADMIN'));
+    }
+
     public function getMainAddress () {
         return $this->addresses()->where('main', 1)->first();
+    }
+
+    public function roles () {
+        return $this->belongsToMany(Role::class)->withTimestamps();
     }
 }
