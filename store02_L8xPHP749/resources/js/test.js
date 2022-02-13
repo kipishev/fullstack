@@ -1,24 +1,85 @@
-console.log(2 > 5) // Получаем false
+//const answer = prompt('Сколько будет 2 + 2?')
+answer = 99
+switch (answer) {
+    case '4': {
+        alert('Правильно')
+        break
+    }
+    case '3': {
+        alert('Больше')
+        break
+    }
+    case '5': {
+        alert('Меньше')
+        break
+    }
+    /*default: {
+        alert('Не правильно')
+        break
+    }*/
+}
 
-let x = 10
-let y = 5
-let res = x > y
-console.log('x == 5', x == 5)
+// FUNCTION DECLARATION
 
-let a = 'a'
-let z = 'z'
-console.log('a > z', a > z)
+function sayHello () {
+    str = 'Hello World!'
+    console.log('Внутри функции', str)
+}
+let str = 'Hello!'
+sayHello()
+console.log('После функции', str)
 
-let str1 = 'abc'
-let str2 = 'abbb'
-console.log('str1 > str2', str1 > str2)
+function sum (a, b = 0) {
+    console.log(a + b)
+}
+let a = 10
+let b = 15
+sum(1, 2)
 
-console.log("'1' == 1", '1' == 1)
-console.log("'1' === 1", '1' === 1)
+function sum2 (a, b) {
+    if (b === undefined) {
+        b = 0
+    }
+    console.log(a + b)
+}
+sum2(5)
 
-let variable = '0'
-let variable1 = 0
+function noReturn () {
+    console.log('Вызвали функцию noReturn')
+}
+let res = noReturn()
+console.log('res = ', res)
 
-console.log(Boolean(variable), Boolean(variable1))
-console.log('variable == variable1', variable == variable1)
+function fullName (firstName, lastName) {
+    return firstName + '' + lastName
+}
+let myName = fullName(Andrei, Tikishev)
+console.log('name = ', myName)
+
+// FUNCTION EXPRESSION
+
+let sayHelloWorld = function () {
+    console.log('Hello World!')
+}
+console.log('sayHelloWorld = ', sayHelloWorld)
+
+sayHelloWorld()
+
+function callBackExample (access, accept, decline) {
+    if (access) {
+        accept()
+    } else {
+        decline()
+    }
+}
+
+const accept = function () {
+    alert('Доступ предоставлен')
+}
+const decline = function () {
+    alert('Доступ запрещен')
+}
+
+callBackExample(true, accept, decline)
+
 

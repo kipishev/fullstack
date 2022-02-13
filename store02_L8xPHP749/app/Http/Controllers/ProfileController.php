@@ -36,8 +36,10 @@ class ProfileController extends Controller
             'password' => 'confirmed|min:8|nullable',
         ]);
 
-        $user->password = Hash::make($input['password']);
-        $user->save();
+        if ($input['password']) {
+            $user->password = Hash::make($input['password']);
+            $user->save();
+        }
 
         Address::where('user_id', $user->id)->update([
             'main' => 0
