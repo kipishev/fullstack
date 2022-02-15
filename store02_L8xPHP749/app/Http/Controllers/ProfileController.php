@@ -44,7 +44,6 @@ class ProfileController extends Controller
         Address::where('user_id', $user->id)->update([
             'main' => 0
         ]);
-
         Address::where('id', $input['main_address'])->update([
             'main' => 1
         ]);
@@ -53,7 +52,6 @@ class ProfileController extends Controller
             Address::where('user_id', $user->id)->update([
                 'main' => 0,
             ]);
-
             Address::create([
                 'user_id' => $user->id,
                 'address' => $newAddress,

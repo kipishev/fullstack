@@ -23,8 +23,14 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/', [AdminController::class, 'admin'])->name('admin');
     Route::get('/users', [AdminController::class, 'users'])->name('adminUsers');
-    Route::get('/products', [AdminController::class, 'products'])->name('adminProducts');
-    Route::get('/categories', [AdminController::class, 'categories'])->name('adminCategories');
+    Route::prefix('/products')->group(function () {
+        Route::get('/', [AdminController::class, 'products'])->name('adminProducts');
+        Route::post('/addProduct', [AdminController::class, 'addProduct'])->name('addProduct');
+    });
+    Route::prefix('/categories')->group(function () {
+        Route::get('/', [AdminController::class, 'categories'])->name('adminCategories');
+        Route::post('/addCategory', [AdminController::class, 'addCategory'])->name('addCategory');
+    });
     Route::get('/enterAsUser/{id}', [AdminController::class, 'enterAsUser'])->name('enterAsUser');
     Route::post('/exportCategories', [AdminController::class, 'exportCategories'])->name('exportCategories');
     Route::prefix('roles')->group(function () {

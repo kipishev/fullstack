@@ -5,7 +5,6 @@
 @endsection
 
 @section('content')
-
     @if($errors->isNotEmpty())
         <div class="alert alert-warning" role="alert">
             @foreach($errors->all() as $error)
@@ -14,7 +13,6 @@
             @endforeach
         </div>
     @endif
-
     <h1>Список ролей</h1>
     <table class="table table-bordered">
         <thead>
