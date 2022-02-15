@@ -9,6 +9,9 @@ $.ajax({
     data: {
         id: 1
     },
+    /*success: function (response) {
+        console.log(response)
+    },*/
     success: function (user) {
         for (key in user) {
             console.log(key, user[key])
