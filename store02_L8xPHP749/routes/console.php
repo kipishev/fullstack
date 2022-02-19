@@ -75,7 +75,7 @@ Artisan::command('queryBuilder', function () {
     fclose($file);
 });*/
 
-Artisan::command('importCategoriesFromFile', function () {
+/*Artisan::command('ImportCategoriesFromFile', function () { // перенесли в job
     $file = fopen('categories.csv', 'r'); //открываем файл на чтение
 
     $i = 0;
@@ -96,7 +96,7 @@ Artisan::command('importCategoriesFromFile', function () {
     }
     //dd($insert); //смотрим загрузку в БД
     Category::insert($insert);
-});
+});*/
 
 Artisan::command('parseEKatalog', function () {
     $i = 0;

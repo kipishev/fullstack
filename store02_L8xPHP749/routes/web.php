@@ -33,6 +33,9 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
     });
     Route::get('/enterAsUser/{id}', [AdminController::class, 'enterAsUser'])->name('enterAsUser');
     Route::post('/exportCategories', [AdminController::class, 'exportCategories'])->name('exportCategories');
+    Route::post('/exportProducts', [AdminController::class, 'exportProducts'])->name('exportProducts');
+    Route::post('/importCategoriesFromFile', [AdminController::class, 'importCategoriesFromFile'])->name('importCategoriesFromFile');
+    Route::post('/importProductsFromFile', [AdminController::class, 'importProductsFromFile'])->name('importProductsFromFile');
     Route::prefix('roles')->group(function () {
         Route::post('/add', [AdminController::class, 'addRole'])->name('addRole');
         Route::post('/addRoleToUser', [AdminController::class, 'addRoleToUser'])->name('addRoleToUser');

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\ExportCategories;
+use App\Jobs\ExportProducts;
+use App\Jobs\ImportCategoriesFromFile;
+use App\Jobs\ImportProductsFromFile;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Role;
@@ -65,9 +68,25 @@ class AdminController extends Controller
         return back();
     }
 
+    public function importCategoriesFromFile () {
+        ImportCategoriesFromFile::dispatch();
+        session()->flash('startImportCategoriesFromFile');
+        return back();
+    }
+    public function importProductsFromFile () {
+        ImportProductsFromFile::dispatch();
+        session()->flash('startImportProductsFromFile');
+        return back();
+    }
+
     public function exportCategories () {
         ExportCategories::dispatch();
         session()->flash('startExportCategories');
+        return back();
+    }
+    public function exportProducts () {
+        ExportProducts::dispatch();
+        session()->flash('startExportProducts');
         return back();
     }
 

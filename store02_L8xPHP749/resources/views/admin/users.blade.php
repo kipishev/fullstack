@@ -93,8 +93,35 @@
             Выгрузка категорий запущена
         </div>
     @endif
+    @if(session('startExportProducts'))
+        <div class="alert alert-success">
+            Выгрузка продуктов запущена
+        </div>
+    @endif
+    @if(session('startImportCategoriesFromFile'))
+        <div class="alert alert-success">
+            Загрузка категорий запущена
+        </div>
+    @endif
+    @if(session('startImportProductsFromFile'))
+        <div class="alert alert-success">
+            Загрузка продуктов запущена
+        </div>
+    @endif
     <form method="post" action="{{ route('exportCategories') }}">
         @csrf
         <button type="submit" class="btn btn-link">Выгрузить категории</button>
+    </form>
+    <form method="post" action="{{ route('exportProducts') }}">
+        @csrf
+        <button type="submit" class="btn btn-link">Выгрузить продукты</button>
+    </form>
+    <form method="post" action="{{ route('importCategoriesFromFile') }}">
+        @csrf
+        <button type="submit" class="btn btn-link">Загрузить категории</button>
+    </form>
+    <form method="post" action="{{ route('importProductsFromFile') }}">
+        @csrf
+        <button type="submit" class="btn btn-link">Загрузить продукты</button>
     </form>
 @endsection

@@ -64,15 +64,19 @@
             <label class="form-label">Список адресов</label>
                 @forelse($user->addresses as $address)
                     <br>
-                    <label for="main_address{{ $address->id }}">{{ $address->address }}</label>
                     <input @if($address->main) checked @endif id="main_address{{ $address->id }}" name="main_address" type="radio" value="{{ $address->id }}">
+                    <label for="main_address{{ $address->id }}">{{ $address->address }}</label>
                 @empty
                     <em>Нет зарегистрированных адрусов</em>
                 @endforelse
         </div>
-        <div class="mb-3">
+        <div class="mb-2">
             <label class="form-label">Новый адрес</label>
             <input name="new_address" class="form-control">
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" name="new_main_address">
+            <label class="form-check-label" for="new_main_address">Сделать новый адрес основным</label>
         </div>
         <button type="submit" class="btn btn-primary">Сохранить</button>
     </form>

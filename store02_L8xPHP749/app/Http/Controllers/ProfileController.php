@@ -18,23 +18,26 @@ class ProfileController extends Controller
         return redirect(route('home'));
     }
     public function save (Request $request) {
-        $input = request()->all();
-
-        $name = $input['name'];
-        $email = $input['email'];
-        $userId = $input['userId'];
-        $picture = $input['picture'] ?? null;
-        $newAddress = $input['new_address'];
-        $user = User::find($userId);
-
-        request()->validate([
+        /*request()->validate([
             'name' => 'required',
             'email' => "email|required|unique:users,email,{$user->id}",
             //'picture' => 'mimes:jpg,bmp,png,webp',
             'picture' => 'mimetypes:image/*',
             'current_password' => 'current_password|required_with:password|nullable',
             'password' => 'confirmed|min:8|nullable',
-        ]);
+        ]);*/
+
+        $input = request()->all();
+
+        //dd($input);
+
+        $name = $input['name'];
+        $email = $input['email'];
+        $userId = $input['userId'];
+        $picture = $input['picture'] ?? null;
+        $newAddress = $input['new_address'];
+        $newMainAddress = $input['new_main_address'] ?? null;
+        $user = User::find($userId);
 
         if ($input['password']) {
             $user->password = Hash::make($input['password']);
@@ -48,7 +51,7 @@ class ProfileController extends Controller
             'main' => 1
         ]);
 
-        if ($newAddress) {
+        if ($newAddress && $newMainAddress) {
             Address::where('user_id', $user->id)->update([
                 'main' => 0,
             ]);
@@ -56,6 +59,12 @@ class ProfileController extends Controller
                 'user_id' => $user->id,
                 'address' => $newAddress,
                 'main' => 1,
+            ]);
+        } else if ($newAddress) {
+            Address::create([
+                'user_id' => $user->id,
+                'address' => $newAddress,
+                'main' => 0,
             ]);
         }
 

@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -10,13 +10,11 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class ExportCategories implements ShouldQueue
+class ExportProducts implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $tries = 2; //указываем количество попыток для тестирования
-
-     /**
+    /**
      * Create a new job instance.
      *
      * @return void
@@ -33,24 +31,27 @@ class ExportCategories implements ShouldQueue
      */
     public function handle()
     {
-        //$c = 10 / 0;
-        $categories = Category::get()->toArray();
-        $file = fopen('exportCategories.csv', 'w');
+        $products = Product::get()->toArray();
+        $file = fopen('exportProducts.csv', 'w');
         $columns = [
             'id',
             'name',
             'description',
             'picture',
+            'price',
+            'category_id',
             'created_at',
             'updated_at',
         ];
         fputcsv($file, $columns, ';');
-        foreach ($categories as $category) {
+        foreach ($products as $product) {
             /*TODO настроить кодировку*/
-            $category['name'] = iconv('utf-8', 'windows-1251//IGNORE', $category['name']); // для кириллыцы
-            $category['description'] = iconv('utf-8', 'windows-1251//IGNORE', $category['description']);
-            $category['picture'] = iconv('utf-8', 'windows-1251//IGNORE', $category['picture']);
-            fputcsv($file, $category, ';');
+            $product['name'] = iconv('utf-8', 'windows-1251//IGNORE', $product['name']);
+            $product['description'] = iconv('utf-8', 'windows-1251//IGNORE', $product['description']);
+            $product['picture'] = iconv('utf-8', 'windows-1251//IGNORE', $product['picture']);
+            $product['price'] = iconv('utf-8', 'windows-1251//IGNORE', $product['price']);
+            $product['category_id'] = iconv('utf-8', 'windows-1251//IGNORE', $product['category_id']);
+            fputcsv($file, $product, ';');
         };
         fclose($file);
     }
