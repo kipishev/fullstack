@@ -22,11 +22,32 @@
         <tbody>
             <tr v-for="(category, index) in categories" :key="category.id">
                 <td>{{ index + 1 }}</td>
-                <td>{{ category.name }} {{ category.id }}</td>
+                <td>
+                    <a :href="`/category/${category.id}`">
+                        {{ category.name }} {{ category.id }}
+                    </a>
+                </td>
             </tr>
         </tbody>
     </table>
     <button @click="addCategory" class="btn btn-primary">Добавить категорию</button>
+    <br>
+    {{ fullName }}
+    <br>
+    {{ fullName }}
+    <br>
+    <input v-model="inputText" @input="listenInput" class="form-control">
+    <input v-model="name" class="class-control">
+    <br>
+    <input v-model="text" class="class-control">
+    <br>
+    {{ reversedText }}
+
+    <select class="form-control">
+        <option @change="selectChanged" v-for="(option, idx) in options" :value="option" :key="idx">
+            {{ option }}
+        </option>
+    </select>
 </template>
 
 <script>
@@ -34,27 +55,45 @@ export default {
     name: "Welcome",
     data () {
         return {
+            text: '',
+            inputText: '',
             title: 'Welcome Vue JS 3',
             name: 'Andrei',
+            lastName: 'Tikishev',
             counter: 0,
             showPicture: true,
+            options: [1, 2, 3,],
             categories: [
                 {
-                    id: 1,
+                    id: 5,
                     name: 'Видеокарты',
                 },
                 {
-                    id: 2,
+                    id: 6,
                     name: 'Процессоры',
                 },
                 {
-                    id: 3,
-                    name: 'Материнские платы'
+                    id: 10,
+                    name: 'Жесткие диски'
                 },
             ],
         }
     },
+    computed: {
+        fullName () {
+            return this.name + ' ' + this.lastName
+        },
+        reversedText () {
+            return this.text.split('').reverse().join('')
+        },
+    },
     methods: {
+        selectChanged () {
+            console.log('')
+        },
+        listenInput () {
+            console.log(this.inputText)
+        },
         addCategory () {
             this.categories.push({
                 id: 4,
