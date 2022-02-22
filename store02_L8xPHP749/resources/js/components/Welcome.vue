@@ -43,11 +43,32 @@
     <br>
     {{ reversedText }}
 
-    <select class="form-control">
-        <option @change="selectChanged" v-for="(option, idx) in options" :value="option" :key="idx">
+    <select v-model="selected" class="form-control mb-5">
+        <option :value="null" selected disabled>-- Выберете значение --</option>
+        <option v-for="(option, idx) in options" :value="option" :key="idx">
             {{ option }}
         </option>
     </select>
+    <button :disabled="!selected" class="btn mt-5" :class="buttonClass">Сохранить</button>
+    <br>
+    <button @click='getData' class="btn btn-info">Получить данные</button>
+
+    <table class="table table-bordered">
+        <tbody>
+            <tr v-for="user in users" :key="user.id">
+                <td>{{ user.id }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr v-if="!users.length">
+                <td class="text-center" colspan="3">
+                    <em>
+                        Данные пока не получены
+                    </em>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </template>
 
 <script>
@@ -55,12 +76,14 @@ export default {
     name: "Welcome",
     data () {
         return {
+            users: [],
             text: '',
             inputText: '',
             title: 'Welcome Vue JS 3',
             name: 'Andrei',
             lastName: 'Tikishev',
             counter: 0,
+            selected: null,
             showPicture: true,
             options: [1, 2, 3,],
             categories: [
@@ -80,6 +103,9 @@ export default {
         }
     },
     computed: {
+        buttonClass () {
+            return this.selected ? 'btn-success' : 'btn-primary'
+        },
         fullName () {
             return this.name + ' ' + this.lastName
         },
@@ -87,10 +113,21 @@ export default {
             return this.text.split('').reverse().join('')
         },
     },
-    methods: {
-        selectChanged () {
-            console.log('')
+    watch: {
+        selected: function (newValue, oldValue) {
+            console.log(`Новое значение: ${newValue}, старое значение: ${oldValue}`)
         },
+    },
+    methods: {
+         getData () {
+             const params = {
+                 id: 1
+             }
+             axios.get('api/test', {params})
+                .then(response => {
+                    this.users = response.data
+                })
+         },
         listenInput () {
             console.log(this.inputText)
         },

@@ -22457,12 +22457,14 @@ __webpack_require__.r(__webpack_exports__);
   name: "Welcome",
   data: function data() {
     return {
+      users: [],
       text: '',
       inputText: '',
       title: 'Welcome Vue JS 3',
       name: 'Andrei',
       lastName: 'Tikishev',
       counter: 0,
+      selected: null,
       showPicture: true,
       options: [1, 2, 3],
       categories: [{
@@ -22478,6 +22480,9 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   computed: {
+    buttonClass: function buttonClass() {
+      return this.selected ? 'btn-success' : 'btn-primary';
+    },
     fullName: function fullName() {
       return this.name + ' ' + this.lastName;
     },
@@ -22485,9 +22490,23 @@ __webpack_require__.r(__webpack_exports__);
       return this.text.split('').reverse().join('');
     }
   },
+  watch: {
+    selected: function selected(newValue, oldValue) {
+      console.log("\u041D\u043E\u0432\u043E\u0435 \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435: ".concat(newValue, ", \u0441\u0442\u0430\u0440\u043E\u0435 \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435: ").concat(oldValue));
+    }
+  },
   methods: {
-    selectChanged: function selectChanged() {
-      console.log('');
+    getData: function getData() {
+      var _this = this;
+
+      var params = {
+        id: 1
+      };
+      axios.get('api/test', {
+        params: params
+      }).then(function (response) {
+        _this.users = response.data;
+      });
     },
     listenInput: function listenInput() {
       console.log(this.inputText);
@@ -22582,10 +22601,36 @@ var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_16 = {
-  "class": "form-control"
-};
+var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  value: null,
+  selected: "",
+  disabled: ""
+}, "-- Выберете значение --", -1
+/* HOISTED */
+);
+
 var _hoisted_17 = ["value"];
+var _hoisted_18 = ["disabled"];
+
+var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_20 = {
+  "class": "table table-bordered"
+};
+var _hoisted_21 = {
+  key: 0
+};
+
+var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+  "class": "text-center",
+  colspan: "3"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("em", null, " Данные пока не получены ")], -1
+/* HOISTED */
+);
+
+var _hoisted_23 = [_hoisted_22];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.title), 1
   /* TEXT */
@@ -22650,19 +22695,45 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.text]]), _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.reversedText) + " ", 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", _hoisted_16, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.options, function (option, idx) {
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
+      return $data.selected = $event;
+    }),
+    "class": "form-control mb-5"
+  }, [_hoisted_16, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.options, function (option, idx) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
-      onChange: _cache[7] || (_cache[7] = function () {
-        return $options.selectChanged && $options.selectChanged.apply($options, arguments);
-      }),
       value: option,
       key: idx
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option), 41
-    /* TEXT, PROPS, HYDRATE_EVENTS */
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option), 9
+    /* TEXT, PROPS */
     , _hoisted_17);
   }), 128
   /* KEYED_FRAGMENT */
-  ))])], 64
+  ))], 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selected]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    disabled: !$data.selected,
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn mt-5", $options.buttonClass])
+  }, "Сохранить", 10
+  /* CLASS, PROPS */
+  , _hoisted_18), _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[8] || (_cache[8] = function () {
+      return $options.getData && $options.getData.apply($options, arguments);
+    }),
+    "class": "btn btn-info"
+  }, "Получить данные"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.users, function (user) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
+      key: user.id
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(user.id), 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(user.name), 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(user.email), 1
+    /* TEXT */
+    )]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  )), !$data.users.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", _hoisted_21, _hoisted_23)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 64
   /* STABLE_FRAGMENT */
   );
 }
