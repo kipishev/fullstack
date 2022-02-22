@@ -6,9 +6,6 @@
 
 require('./bootstrap');
 
-// for VueJS 2
-//window.Vue = require('vue').default;
-
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -20,11 +17,9 @@ require('./bootstrap');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-// for VueJS 2
-//Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-
 import { createApp } from 'vue'
 import HelloWorld from './components/Welcome'
+import CategoriesComponent from './components/CategoriesComponent'
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -32,11 +27,9 @@ import HelloWorld from './components/Welcome'
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-// for VueJS 2
-/*const app = new Vue({
-    el: '#app',
-});*/
-
 const app = createApp({})
 app.component('hello-world', HelloWorld)
+app.component('categories-component', CategoriesComponent)
 app.mount('#app')
+
+

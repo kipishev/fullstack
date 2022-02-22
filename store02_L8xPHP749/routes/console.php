@@ -80,6 +80,7 @@ Artisan::command('queryBuilder', function () {
 
     $i = 0;
     $insert = [];
+    $columns = []; // добавил после
     while ($row = fgetcsv($file, 1000, ';')) {
         //dump($row); //проверяем что все корректно выводится
          if ($i++ == 0) {

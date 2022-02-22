@@ -1,8 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
+    <categories-component
+        :categories="{{ $categories }}"
+        route-admin-categories="{{ route('adminCategories') }}"
+        route-category="{{ route('category', '') }}"
+        page-title="Список категорий!"
+        test="test"
+    >
+    </categories-component>
+
+    {{--<div class="row">
         @foreach($categories as $category)
         <div class="col-3">
             <div class="card mb-4" style="width: 18rem;">
@@ -15,6 +23,5 @@
             </div>
         </div>
         @endforeach
-    </div>
-</div>
+    </div>--}}
 @endsection
