@@ -27,9 +27,16 @@ class HomeController extends Controller
         return view('home', compact('categories'));
     }
 
-    public function category ( Category $category) {
-        //dd($category->products);
+    public function category ($category) {
+        return view('category', compact('category'));
+    }
+
+    public function getProducts (Category $category) {
         $products = $category->products;
-        return view('category', compact('products'));
+        $products->transform(function ($product) {
+            $product->quantity = session("cart.{ $product->id }") ?? 0;
+            return $product;
+        });
+        return $products;
     }
 }

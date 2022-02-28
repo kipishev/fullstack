@@ -24,7 +24,11 @@
 
 @section('content')
     <div class="container">
-        <div class="row">
+        <category-products-component
+            category="{{ $category }}"
+        >
+        </category-products-component>
+        {{--<div class="row">
             @foreach($products as $product)
                 <div class="col-3">
                     <div class="card mb-4" style="width: 18rem;">
@@ -52,6 +56,6 @@
                     </div>
                 </div>
             @endforeach
-        </div>
+        </div>--}}
     </div>
 @endsection

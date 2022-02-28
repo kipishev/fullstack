@@ -20,6 +20,7 @@ require('./bootstrap');
 import { createApp } from 'vue'
 import HelloWorld from './components/Welcome'
 import CategoriesComponent from './components/CategoriesComponent'
+import CategoryProductsComponent from './components/CategoryProductsComponent'
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -30,6 +31,7 @@ import CategoriesComponent from './components/CategoriesComponent'
 const app = createApp({})
 app.component('hello-world', HelloWorld)
 app.component('categories-component', CategoriesComponent)
+app.component('category-products-component', CategoryProductsComponent)
 app.mount('#app')
 
 
