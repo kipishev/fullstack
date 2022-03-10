@@ -11,7 +11,13 @@
 @endsection
 
 @section('content')
-    <table class="table table-bordered">
+        <cart-component
+            :prods="{{ $products }}"
+            :user="{{ $user }}"
+            address="{{ $address }}"
+        >
+        </cart-component>
+{{--    <table class="table table-bordered">
         <thead>
             <tr>
                 <th>#</th>
@@ -65,18 +71,5 @@
                     </td>
                 </tr>
         </tbody>
-    </table>
-    @if($summ)
-        <form method="post" action="{{ route('createOrder') }}">
-            @csrf
-            <input placeholder="Имя" class="form-control mb-2" name="name" value="{{ $user->name ?? '' }}">
-            <input placeholder="Почта" class="form-control mb-2" name="email" value="{{ $user->email ?? '' }}">
-            <input placeholder="Адрес" class="form-control mb-2" name="address" value="{{ $address }}">
-            <input id="register_conformation" name="register_conformation" type="checkbox">
-            {{--TODO не забыть добавить оферту--}}
-            <label for="register_conformation">Зарегистрировать автоматически</label>
-            <br>
-            <button type="submit" class="btn btn-success">Оформить заказ</button>
-        </form>
-    @endif
+    </table>--}}
 @endsection

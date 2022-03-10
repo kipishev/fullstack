@@ -36,10 +36,6 @@ export default {
             axios.post(`/cart/${type}Cart`, params)
             .then(response => {
                 this.cartQuantity = response.data
-                let quantity = localStorage.cartProductQuantity
-                if (type == 'removeFrom') quantity -= 1
-                else quantity +=1
-                localStorage.cartProductQuantity = quantity
             })
         },
     },

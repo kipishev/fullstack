@@ -21,6 +21,7 @@ import { createApp } from 'vue'
 import HelloWorld from './components/Welcome'
 import CategoriesComponent from './components/CategoriesComponent'
 import CategoryProductsComponent from './components/CategoryProductsComponent'
+import CartComponent from './components/CartComponent'
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -29,9 +30,11 @@ import CategoryProductsComponent from './components/CategoryProductsComponent'
  */
 
 const app = createApp({})
-app.component('hello-world', HelloWorld)
-app.component('categories-component', CategoriesComponent)
-app.component('category-products-component', CategoryProductsComponent)
-app.mount('#app')
+app
+    .component('hello-world', HelloWorld)
+    .component('categories-component', CategoriesComponent)
+    .component('category-products-component', CategoryProductsComponent)
+    .component('cart-component', CartComponent)
+    .mount('#app')
 
 

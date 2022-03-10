@@ -64,11 +64,12 @@ class CartController extends Controller
     }
 
     public function createOrder () {
+        sleep(1);
         request()->validate([
-            'register_conformation' => 'accepted',
             'name' => 'required',
             'email' => 'required|email',
             'address' => 'required',
+            'register_conformation' => 'accepted|sometimes',
         ]);
 
         try {
@@ -109,12 +110,12 @@ class CartController extends Controller
                 $data = [
                     'products' => $order->products,
                     'name' => $user->name,
-                    'password' => $password,
+                    'password' => $password ?? '',
                 ];
                 Mail::to($user->email)->send(new OrderCreated($data));
             });
             session()->forget('cart');
-            return back();
+            return true;
         } catch (\Exception $e) {
             return back();
         }
