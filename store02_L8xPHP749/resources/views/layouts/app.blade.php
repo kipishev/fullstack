@@ -45,11 +45,12 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
-                        <li class="nav-item">
+                        <nav-bar-cart-component></nav-bar-cart-component>
+                        {{--<li class="nav-item">
                             <a class="nav-link" href="{{ route('cart') }}">
                                 Корзина ({{ array_sum(session('cart') ?? []) }})
                             </a>
-                        </li>
+                        </li>--}}
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">

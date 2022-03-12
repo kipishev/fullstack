@@ -35,7 +35,8 @@ export default {
             }
             axios.post(`/cart/${type}Cart`, params)
             .then(response => {
-                this.cartQuantity = response.data
+                this.cartQuantity = response.data.productQuantity
+                this.$store.dispatch('changeCartProductsQuantity', response.data.cartProductsQuantity)
             })
         },
     },

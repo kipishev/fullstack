@@ -5,7 +5,30 @@
 @endsection
 
 @section('content')
-    <a href="{{ route('adminUsers') }}">Список пользователей</a>
-    <a href="{{ route('adminProducts') }}">Список продуктов</a>
-    <a href="{{ route('adminCategories') }}">Список категорий</a>
+    <div class="row" style="justify-content: space-between">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Список пользователей</h5>
+                    <a href="{{ route('adminUsers') }}" class="btn btn-primary">Показать</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Список категорий</h5>
+                    <a href="{{ route('adminCategories') }}" class="btn btn-primary">Показать</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Список продуктов</h5>
+                    <a href="{{ route('adminProducts') }}" class="btn btn-primary">Показать</a>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

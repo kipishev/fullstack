@@ -5,7 +5,12 @@
 @endsection
 
 @section('content')
-    @if($errors->isNotEmpty())
+    {{--Код для VueJS--}}
+    <h1>Список категорий</h1>
+    <admin-categories-component :categories="{{ $categories }}"></admin-categories-component>
+
+    {{--Код для BLADE--}}
+    {{--@if($errors->isNotEmpty())
         <div class="alert alert-warning" role="alert">
             @foreach($errors->all() as $error)
                 {{ $error }}
@@ -56,5 +61,5 @@
             </tr>
         @endforeach
         </tbody>
-    </table>
+    </table>--}}
 @endsection

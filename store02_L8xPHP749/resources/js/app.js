@@ -4,6 +4,8 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+import {store} from "./store/store";
+
 require('./bootstrap');
 
 /**
@@ -22,6 +24,8 @@ import HelloWorld from './components/Welcome'
 import CategoriesComponent from './components/CategoriesComponent'
 import CategoryProductsComponent from './components/CategoryProductsComponent'
 import CartComponent from './components/CartComponent'
+import AdminCategoriesComponent from './components/admin/CategoriesComponent'
+import NavBarCartComponent from './components/NavBarCartComponent'
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -30,11 +34,15 @@ import CartComponent from './components/CartComponent'
  */
 
 const app = createApp({})
+
+app
+    .use(store)
 app
     .component('hello-world', HelloWorld)
     .component('categories-component', CategoriesComponent)
     .component('category-products-component', CategoryProductsComponent)
     .component('cart-component', CartComponent)
+    .component('admin-categories-component', AdminCategoriesComponent)
+    .component('nav-bar-cart-component', NavBarCartComponent)
     .mount('#app')
-
 

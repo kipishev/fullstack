@@ -29,12 +29,17 @@ class AdminController extends Controller
         return view('admin.users', $data);
     }
     public function categories () {
+        // Код для VueJS
         $categories = Category::get();
+        return view('admin.categories', compact('categories'));
+
+        // Код для BLADE
+        /*$categories = Category::get();
         $data = [
             'title' => 'Список всех категорий',
             'categories' => $categories,
         ];
-        return view('admin.categories', $data);
+        return view('admin.categories', $data);*/
     }
 
     public function addCategory () {
@@ -80,9 +85,12 @@ class AdminController extends Controller
     }
 
     public function exportCategories () {
-        ExportCategories::dispatch();
+        ExportCategories::dispatch(Auth::user()->id);
+
+        // Для BLADE
+        /*ExportCategories::dispatch();
         session()->flash('startExportCategories');
-        return back();
+        return back();*/
     }
     public function exportProducts () {
         ExportProducts::dispatch();
