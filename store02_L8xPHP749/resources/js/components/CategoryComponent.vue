@@ -5,7 +5,7 @@
             <div class="card-body">
                 <h5 class="card-title">{{ category.name }}</h5>
                 <p class="card-text">{{ category.description }}</p>
-                <a :href="`${routeCategory}/${category.id}`" class="btn btn-primary">Перейти</a>
+                <router-link :to='`/category/${category.id}`'>Перейти</router-link>
                 <button @click='buttonClicked' class="btn btn-link">CLICK</button>
             </div>
         </div>

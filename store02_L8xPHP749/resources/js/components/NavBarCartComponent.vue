@@ -16,10 +16,10 @@ export default {
         },
     },
     mounted () {
-        axios.get('/cart/productsQuantity')
+        /*axios.get('/cart/productsQuantity')
             .then((response) => {
                 this.$store.dispatch('changeCartProductsQuantity', response.data)
-            })
+            })*/
     }
 }
 </script>

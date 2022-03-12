@@ -4,8 +4,6 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-import {store} from "./store/store";
-
 require('./bootstrap');
 
 /**
@@ -20,12 +18,18 @@ require('./bootstrap');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 import { createApp } from 'vue'
-import HelloWorld from './components/Welcome'
+
+// Код для Vue.js без использования Vue-router
+/*import HelloWorld from './components/Welcome'
 import CategoriesComponent from './components/CategoriesComponent'
 import CategoryProductsComponent from './components/CategoryProductsComponent'
 import CartComponent from './components/CartComponent'
-import AdminCategoriesComponent from './components/admin/CategoriesComponent'
+import AdminCategoriesComponent from './components/admin/CategoriesComponent'*/
 import NavBarCartComponent from './components/NavBarCartComponent'
+
+import {store} from "./store/store";
+
+import {router} from "./router/router";
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -35,14 +39,14 @@ import NavBarCartComponent from './components/NavBarCartComponent'
 
 const app = createApp({})
 
+app.use(store)
+app.use(router)
 app
-    .use(store)
-app
-    .component('hello-world', HelloWorld)
+    /*.component('hello-world', HelloWorld)
     .component('categories-component', CategoriesComponent)
     .component('category-products-component', CategoryProductsComponent)
     .component('cart-component', CartComponent)
-    .component('admin-categories-component', AdminCategoriesComponent)
+    .component('admin-categories-component', AdminCategoriesComponent)*/
     .component('nav-bar-cart-component', NavBarCartComponent)
     .mount('#app')
 
