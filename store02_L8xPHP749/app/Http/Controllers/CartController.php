@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Mail;
 
 class CartController extends Controller
 {
-    public function cart () {
-        $cart = session('cart') ?? [];
+    public function info () {
+        $cart = json_decode(request('products'), true);
 
         $products = Product::whereIn('id', array_keys($cart))
             ->get()
@@ -27,7 +27,11 @@ class CartController extends Controller
             });
         $user = Auth::user();
         $address = $user ? $user->addresses()->where('main', 1)->first()->address ?? '' : '';
-        return view('cart', compact('products', 'user', 'address'));
+        return [
+            'products' => $products,
+            'user' => $user,
+            'address' => $address,
+        ];
     }
 
     public function RemoveFromCart () {
@@ -70,7 +74,6 @@ class CartController extends Controller
     }
 
     public function createOrder () {
-        sleep(1);
         request()->validate([
             'name' => 'required',
             'email' => 'required|email',
@@ -99,7 +102,7 @@ class CartController extends Controller
 
                 $address = $user->getMainAddress();
 
-                $cart = session('cart');
+                $cart = request('products');
                 $order = Order::create([
                     'user_id' => $user->id,
                     'address_id' => $address->id,

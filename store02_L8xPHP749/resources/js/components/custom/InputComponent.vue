@@ -4,7 +4,7 @@
 
 <script>
 export default {
-    name: "Input",
+    name: "InputComponent",
     props: ['val'],
     model: {
         prop: 'val',

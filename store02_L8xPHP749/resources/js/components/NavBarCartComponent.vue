@@ -1,8 +1,8 @@
 <template>
     <li class="nav-item">
-        <a class="nav-link" href="/cart">
+        <router-link class="nav-link" to="/cart">
             Корзина <span id='cartProductsQuantity'>({{ cartProductsQuantity }})</span>
-        </a>
+        </router-link>
     </li>
 </template>
 
@@ -16,6 +16,15 @@ export default {
         },
     },
     mounted () {
+        let cart = JSON.parse(localStorage.getItem('cart'))
+
+        let quantity = 0
+        for (let key in cart) {
+            quantity += cart[key]
+        }
+        this.$store.dispatch('changeCartProductsQuantity', quantity)
+
+        //Code for Vue.js
         /*axios.get('/cart/productsQuantity')
             .then((response) => {
                 this.$store.dispatch('changeCartProductsQuantity', response.data)

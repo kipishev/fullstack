@@ -15,13 +15,13 @@
 <script>
 import CategoryComponent from '../components/CategoryComponent'
 export default {
-    name: "CategoriesComponent",
+    name: "CategoriesPage",
+    components: {CategoryComponent},
     data () {
         return {
             categories: []
         }
     },
-    components: {CategoryComponent},
     methods: {
         buttonClicked (data) {
             console.log(`Клик в дочернем элементе (${data})`)

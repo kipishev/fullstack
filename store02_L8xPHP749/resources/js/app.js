@@ -28,7 +28,6 @@ import AdminCategoriesComponent from './components/admin/CategoriesComponent'*/
 import NavBarCartComponent from './components/NavBarCartComponent'
 
 import {store} from "./store/store";
-
 import {router} from "./router/router";
 
 /**

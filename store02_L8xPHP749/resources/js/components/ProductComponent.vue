@@ -25,19 +25,51 @@ export default {
     props: ['product'],
     data () {
         return {
-            cartQuantity: this.product.quantity
+            /*cartQuantity: this.product.quantity*/ // Code for Vue.js
+            cartQuantity: JSON.parse(localStorage.getItem('cart'))[this.product.id] || 0 // Code for Vue-router
         }
     },
     methods: {
         cartAction(type) {
-            const params = {
+
+            let cart = JSON.parse(localStorage.getItem('cart'))
+
+            if (type == 'addTo') {
+                if (!cart)
+                    cart = {}
+                if (typeof cart[this.product.id] == 'undefined') {
+                    cart[this.product.id] = 1
+                } else {
+                    cart[this.product.id] += 1
+                }
+                localStorage.setItem('cart', JSON.stringify(cart))
+                this.cartQuantity = cart[this.product.id]
+
+            } else if (type == 'removeFrom') {
+                if (cart[this.product.id] == 1) {
+                    delete cart[this.product.id]
+                } else {
+                    cart[this.product.id] -= 1
+                }
+                localStorage.setItem('cart', JSON.stringify(cart))
+                this.cartQuantity = cart[this.product.id] || 0
+            }
+
+            let quantity = 0
+            for (let key in cart) {
+                quantity += cart[key]
+            }
+            this.$store.dispatch('changeCartProductsQuantity', quantity)
+
+            //Come for Vue.js
+            /*const params = {
                 id: this.product.id
             }
             axios.post(`/api/cart/${type}Cart`, params)
             .then(response => {
                 this.cartQuantity = response.data.productQuantity
                 this.$store.dispatch('changeCartProductsQuantity', response.data.cartProductsQuantity)
-            })
+            })*/
         },
     },
 }

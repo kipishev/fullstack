@@ -17,7 +17,7 @@
 import ProductComponent from '../components/ProductComponent'
 
 export default {
-    name: "CategoryProductsComponent",
+    name: "CategoryProductsPage",
     props: ['category'],
     components: {ProductComponent},
     data () {

@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import InputComponent from './custom/Input'
+import InputComponent from './custom/InputComponent'
 
 export default {
     name: "CartComponent",

@@ -61,6 +61,7 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
 
 Route::prefix('cart')->group(function () {
     Route::get('/', [CartController::class, 'cart'])->name('cart');
+    Route::get('/info', [CartController::class, 'info']); // Code for Vue-router
     Route::get('/productsQuantity', [CartController::class, 'productsQuantity']); // Код для VueJS
     Route::post('/removeFromCart', [CartController::class, 'removeFromCart'])->name('removeFromCart');
     Route::post('/addToCart', [CartController::class, 'addToCart'])->name('addToCart');
