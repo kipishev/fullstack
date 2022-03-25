@@ -18,28 +18,28 @@ class ProfileController extends Controller
         return redirect(route('home'));
     }
     public function save (Request $request) {
-        /*request()->validate([
-            'name' => 'required',
-            'email' => "email|required|unique:users,email,{$user->id}",
-            //'picture' => 'mimes:jpg,bmp,png,webp',
-            'picture' => 'mimetypes:image/*',
-            'current_password' => 'current_password|required_with:password|nullable',
-            'password' => 'confirmed|min:8|nullable',
-        ]);*/
-
         $input = request()->all();
-
         //dd($input);
 
         $name = $input['name'];
         $email = $input['email'];
         $userId = $input['userId'];
         $picture = $input['picture'] ?? null;
-        $newAddress = $input['new_address'];
+        $newAddress = $input['new_address'] ?? null;
         $newMainAddress = $input['new_main_address'] ?? null;
         $user = User::find($userId);
 
-        if ($input['password']) {
+        request()->validate([
+            'name' => 'required',
+            'email' => "email|required|unique:users,email,{$user->id}",
+            //'picture' => 'mimes:jpg,bmp,png,webp',
+            'picture' => 'mimetypes:image/*',
+            'current_password' => 'current_password|required_with:password|nullable',
+            'password' => 'confirmed|min:8|nullable',
+        ]);
+
+
+        if (isset($input['password'])) {
             $user->password = Hash::make($input['password']);
             $user->save();
         }
@@ -47,9 +47,12 @@ class ProfileController extends Controller
         Address::where('user_id', $user->id)->update([
             'main' => 0
         ]);
-        Address::where('id', $input['main_address'])->update([
-            'main' => 1
-        ]);
+
+        if (isset($input['main_address'])) {
+            Address::where('id', $input['main_address'])->update([
+                'main' => 1
+            ]);
+        }
 
         if ($newAddress && $newMainAddress) {
             Address::where('user_id', $user->id)->update([

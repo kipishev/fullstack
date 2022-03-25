@@ -14,6 +14,7 @@
 
 <script>
 import CategoryComponent from '../components/CategoryComponent'
+
 export default {
     name: "CategoriesPage",
     components: {CategoryComponent},
