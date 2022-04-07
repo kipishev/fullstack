@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
@@ -20,15 +22,8 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-/*Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});*/
-
-Route::get('/user', function () {
-    $user = User::find(1)->load('addresses');
-    return [
-        'user' => $user,
-    ];
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user()->load(['roles', 'addresses']);
 });
 
 Route::get('/test', function () {
@@ -81,4 +76,10 @@ Route::get('/category/{category}/getProducts', [HomeController::class, 'getProdu
 Route::get('/profile/{user}', [ProfileController::class, 'profile'])->name('profile');
 Route::post('/profile/save', [ProfileController::class, 'save'])->name('saveProfile');
 
-Auth::routes();
+//Auth::routes();
+
+Route::prefix('auth')->group(function () {
+    Route::get('/login', [LoginController::class, 'login']);
+    Route::get('/logout', [LoginController::class, 'logout']);
+    Route::get('/register', [RegisterController::class, 'register']);
+});

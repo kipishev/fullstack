@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -38,7 +40,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        //$this->middleware('guest');
     }
 
     /**
@@ -69,5 +71,25 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    public function register(Request $request) {
+        $validator = $this->validator($request->only(['name', 'email', 'password', 'password_confirmation']));
+        if (!$validator->validate()) {
+            return response([
+                'errors' => $validator->errors()
+            ], 401);
+        }
+        $user = User::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => Hash::make($request['password']),
+        ]);
+
+        Auth::loginUsingId($user->id);
+
+        return [
+            'user' => $user->load(['roles', 'addresses'])
+        ];
     }
 }
