@@ -55,16 +55,16 @@ export default {
         }
         this.$store.dispatch('changeCartProductsQuantity', quantity)
 
-        axios.get('/api/user')
-            .then((response) => {
-                this.$store.dispatch('setUser', response.data)
-            })
-
         //Code for Vue.js
         /*axios.get('/cart/productsQuantity')
             .then((response) => {
                 this.$store.dispatch('changeCartProductsQuantity', response.data)
             })*/
+
+        axios.get('/api/user')
+            .then((response) => {
+                this.$store.dispatch('setUser', response.data)
+            })
     }
 }
 </script>

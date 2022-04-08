@@ -22765,15 +22765,16 @@ __webpack_require__.r(__webpack_exports__);
       quantity += cart[key];
     }
 
-    this.$store.dispatch('changeCartProductsQuantity', quantity);
-    axios.get('/api/user').then(function (response) {
-      _this2.$store.dispatch('setUser', response.data);
-    }); //Code for Vue.js
+    this.$store.dispatch('changeCartProductsQuantity', quantity); //Code for Vue.js
 
     /*axios.get('/cart/productsQuantity')
         .then((response) => {
             this.$store.dispatch('changeCartProductsQuantity', response.data)
         })*/
+
+    axios.get('/api/user').then(function (response) {
+      _this2.$store.dispatch('setUser', response.data);
+    });
   }
 });
 

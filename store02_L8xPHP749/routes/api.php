@@ -26,6 +26,21 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user()->load(['roles', 'addresses']);
 });
 
+Route::prefix('auth')->group(function () {
+    Route::get('/login', [LoginController::class, 'login']);
+    Route::get('/logout', [LoginController::class, 'logout']);
+    Route::get('/register', [RegisterController::class, 'register']);
+});
+
+/*Route::get('/user', function () {
+    $user = User::find(1)->load('addresses');
+    return [
+        'user' => $user,
+    ];
+});*/
+
+//Auth::routes();
+
 Route::get('/test', function () {
     $id = request('id');
     if (!$id) {
@@ -75,11 +90,3 @@ Route::get('/category/{category}', [HomeController::class, 'category'])->name('c
 Route::get('/category/{category}/getProducts', [HomeController::class, 'getProducts']);
 Route::get('/profile/{user}', [ProfileController::class, 'profile'])->name('profile');
 Route::post('/profile/save', [ProfileController::class, 'save'])->name('saveProfile');
-
-//Auth::routes();
-
-Route::prefix('auth')->group(function () {
-    Route::get('/login', [LoginController::class, 'login']);
-    Route::get('/logout', [LoginController::class, 'logout']);
-    Route::get('/register', [RegisterController::class, 'register']);
-});
