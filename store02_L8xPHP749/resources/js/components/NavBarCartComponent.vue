@@ -6,24 +6,16 @@
             </router-link>
         </li>
         <li class="nav-item">
-            <router-link class="nav-link" to="/auth/login">
-                Авторизация
-            </router-link>
+            <router-link class="nav-link" to="/auth/login">Авторизация</router-link>
         </li>
         <li class="nav-item">
-            <router-link class="nav-link" to="/auth/register">
-                Регистрация
-            </router-link>
+            <router-link class="nav-link" to="/auth/register">Регистрация</router-link>
         </li>
         <li class="nav-item">
-            <button @click='logout' class="btn nav-link btn-link">
-                Выход
-            </button>
+            <button @click='logout' class="btn nav-link btn-link">Выход</button>
         </li>
         <li class="nav-item">
-            <router-link class="nav-link" to="/profile">
-                Профиль
-            </router-link>
+            <router-link class="nav-link" to="/profile">Профиль</router-link>
         </li>
     </ul>
 </template>
@@ -39,11 +31,10 @@ export default {
     },
     methods: {
         logout () {
-            axios.get('/api/auth/logout')
-                .then(() => {
-                    this.$store.dispatch('setUser', null)
-                    this.$router.push('/auth/login')
-                })
+            axios.get('/api/auth/logout').then(() => {
+                this.$store.dispatch('setUser', null)
+                this.$router.push('/auth/login')
+            })
         }
     },
     mounted () {
@@ -61,10 +52,9 @@ export default {
                 this.$store.dispatch('changeCartProductsQuantity', response.data)
             })*/
 
-        axios.get('/api/user')
-            .then((response) => {
-                this.$store.dispatch('setUser', response.data)
-            })
+        axios.get('/api/user').then((response) => {
+            this.$store.dispatch('setUser', response.data)
+        })
     }
 }
 </script>

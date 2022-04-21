@@ -52,16 +52,15 @@ export default {
                     email: this.email,
                     password: this.password,
                 }
-                axios.get('/api/auth/login', {params})
-                    .then(response => {
-                        const user = response.data.user
-                        if (user) {
-                            this.$store.dispatch('setUser', user)
-                            this.$router.push('/')
-                        } else {
-                            alert('wrong data')
-                        }
-                    })
+                axios.get('/api/auth/login', {params}).then(response => {
+                    const user = response.data.user
+                    if (user) {
+                        this.$store.dispatch('setUser', user)
+                        this.$router.push('/')
+                    } else {
+                        alert('wrong data')
+                    }
+                })
             });
         }
     },
